@@ -1,8 +1,12 @@
 import React from 'react';
 
-class Welcome extends React.Component<{name: string}> {
+class Welcome extends React.Component {
   render() {
-    return <h1>Hello there {this.props.name}</h1>
+    return (
+      <div>
+        <h1>Wisp</h1>
+      </div>
+    )
   }
 }
 

@@ -1,0 +1,11 @@
+.text-editor > textarea {
+  margin: 5px;
+}
+
+.text-editor > span {
+  margin: 5px;
+}
+
+.text-editor > button {
+  margin: 5px;
+}
