@@ -1,4 +1,6 @@
 import React from 'react';
+
+import Welcome from './components/welcome';
 import logo from './assets/logo.svg';
 import './App.css';
 
@@ -8,7 +10,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          <Welcome name="my friend"></Welcome>
         </p>
         <a
           className="App-link"
