@@ -1,5 +1,5 @@
 export class WispApi {
-  writeData(text: string) {
-    console.log(text);
+  encryptText(password: string, contents: string) {
+    console.log(`Encrypting text with this password: ${password}\n${contents}`);
   }
 }
