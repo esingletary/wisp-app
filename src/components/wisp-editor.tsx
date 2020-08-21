@@ -67,6 +67,7 @@ class WispEditor extends React.Component<WispEditorProps, WispEditorState> {
     const {id, value} = event.target;
     this.setState((state) => {
       return {
+        ...state,
         wispContents: id === 'wisp-contents' ? value : state.wispContents,
         wispPassword: id === 'wisp-password' ? value : state.wispPassword,
       }

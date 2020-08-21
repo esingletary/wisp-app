@@ -5,3 +5,10 @@ export interface WispEditorState {
   isCurrentlyLoading: boolean,
   encryptedWispId: string
 }
+
+export interface WispRetrieverState {
+  wispId: string,
+  wispPassword: string,
+  wispContents: string,
+  isCurrentlyLoading: boolean,
+}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core';
+import { makeStyles, createStyles, Theme, Button } from '@material-ui/core';
+import { Link } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -25,8 +26,10 @@ class NavBar extends React.Component {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Wisp Secret Manager
+            Secret Manager
         </Typography>
+        <Button color="inherit" component={Link} to="/create">Create</Button>
+        <Button color="inherit" component={Link} to="/retrieve">Retrieve</Button>
         </Toolbar>
       </AppBar>
     )

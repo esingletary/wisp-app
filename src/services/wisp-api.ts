@@ -10,4 +10,12 @@ export class WispApi {
     });
     return id;
   }
+
+  async decryptText(id: string, password: string) {
+    const result = await fetch('http://localhost:4567/retrieve', {
+      method: 'POST',
+      body: JSON.stringify({ id, password } as Wisp)
+    });
+    return await result.text();
+  }
 }

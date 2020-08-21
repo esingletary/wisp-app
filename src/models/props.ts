@@ -3,6 +3,11 @@ export interface WispEditorProps {
   isCurrentlyLoading: (isLoading: boolean) => void
 }
 
+export interface WispRetrieverProps {
+  isLoading: boolean,
+  isCurrentlyLoading: (isLoading: boolean) => void
+}
+
 export interface WispConfirmCreateDialogProps {
   open: boolean,
   wispId: string,
