@@ -1,5 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
+import { Wisp } from '../models/wisp';
+
 export class WispApi {
-  encryptText(password: string, contents: string) {
-    console.log(`Encrypting text with this password: ${password}\n${contents}`);
+  async encryptText(password: string, contents: string): Promise<string> {
+    const id = uuidv4();
+    await fetch('http://localhost:4567/create', {
+      method: 'POST',
+      body: JSON.stringify({ id, contents, password } as Wisp)
+    });
+    return id;
   }
 }

@@ -1,19 +1,18 @@
 import React, { ChangeEvent } from 'react';
-import { makeStyles } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import LockIcon from '@material-ui/icons/Lock';
-import Button from '@material-ui/core/Button'
+import { makeStyles, Paper, Typography, TextField, Button } from '@material-ui/core';
+import { Lock } from '@material-ui/icons'
 
+import { WispEditorState } from '../models/state';
+import { WispEditorProps } from '../models/props';
 import { WispApi } from '../services/wisp-api';
+import WispConfirmCreateDialog from './wisp-confirm-create-dialog';
 
-class WispEditor extends React.Component<{}, { wispContents: string, wispPassword: string }> {
+class WispEditor extends React.Component<WispEditorProps, WispEditorState> {
   _wispApi: WispApi
 
-  constructor(props: {}) {
+  constructor(props: WispEditorProps) {
     super(props);
-    this.state = {wispContents: '', wispPassword: ''}
+    this.state = {wispContents: '', wispPassword: '', isConfirmDialogOpen: false, isCurrentlyLoading: false, encryptedWispId: ''}
     this._wispApi = new WispApi();
   }
 
@@ -49,7 +48,13 @@ class WispEditor extends React.Component<{}, { wispContents: string, wispPasswor
           You should probably type a password so no one reads it by accident
         </Typography>
         <TextField id="wisp-password" className={classes.wispPassword} fullWidth type="password" label="Password" onChange={this.onInputChange} />
-        <Button onClick={this.onEncrypt} variant="contained" color="primary" startIcon={<LockIcon />}>Encrypt</Button>
+        <Button onClick={this.onEncrypt} variant="contained" color="primary" startIcon={<Lock />} disabled={this.props.isLoading}>Encrypt</Button>
+        <WispConfirmCreateDialog
+          open={this.state.isConfirmDialogOpen}
+          setOpen={this.setConfirmDialogOpenState}
+          onClose={this.onConfirmDialogClosed}
+          wispId={this.state.encryptedWispId}
+        />
       </Paper>
     )
   }
@@ -68,8 +73,28 @@ class WispEditor extends React.Component<{}, { wispContents: string, wispPasswor
     });
   }
 
-  onEncrypt = () => {
-    this._wispApi.encryptText(this.state.wispPassword, this.state.wispContents)
+  setConfirmDialogOpenState = (dialogOpenState: boolean) => {
+    this.setState(state => {
+      return {...state, isConfirmDialogOpen: dialogOpenState}
+    })
+  }
+
+  onEncrypt = async () => {
+    this.props.isCurrentlyLoading(true);
+    try {
+      const id = await this._wispApi.encryptText(this.state.wispPassword, this.state.wispContents)
+      this.setState(state => {
+        return {...state, encryptedWispId: id}
+      })
+      this.setConfirmDialogOpenState(true);
+    } catch(e) {
+      console.log('An error occured trying to encrypt the data!');
+      this.props.isCurrentlyLoading(false);
+    }
+  }
+
+  onConfirmDialogClosed = () => {
+    this.props.isCurrentlyLoading(false);
   }
 }
 
